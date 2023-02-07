@@ -10,10 +10,13 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { AuthService } from './services/auth.service';
 import { RouterModule } from '@angular/router';
 import { ListItemComponent } from './components/list-item/list-item.component';
+import { ItemsResolveService } from './services/resolvers/item-data-resolve.service';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 const appRoutes =[
-  {path:'',component:MainPageComponent},
-  {path:'auth',component:AuthFormComponent}
+  {path:'',component:MainPageComponent,resolve:{data:ItemsResolveService}},
+  {path:'auth',component:AuthFormComponent},
+  {path:'**',component:PageNotFoundComponent}
 ]
 
 @NgModule({
@@ -22,7 +25,8 @@ const appRoutes =[
     NavbarComponent,
     AuthFormComponent,
     MainPageComponent,
-    ListItemComponent
+    ListItemComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

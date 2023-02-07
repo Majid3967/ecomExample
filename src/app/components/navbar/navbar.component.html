@@ -13,7 +13,7 @@
       </ul>
 
       <button *ngIf="!isAuth" class="btn btn-primary" (click)="authForm()">Log In</button>
-      <button *ngIf="isAuth" class="btn btn-danger">Log Out</button>
+      <button *ngIf="isAuth" class="btn btn-danger" (click)="logOut()">Log Out</button>
     </div>
   </div>
 </nav>

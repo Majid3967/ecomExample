@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthResponseData, AuthService } from 'src/app/services/auth.service';
 import { passwordMatch } from 'src/app/validators/passwordMatch';
@@ -14,7 +15,7 @@ export class AuthFormComponent implements OnInit {
   authForm!: FormGroup;
   error: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,private router:Router) {}
 
   ngOnInit(): void {
     this.authForm = new FormGroup(
@@ -46,6 +47,7 @@ export class AuthFormComponent implements OnInit {
       authObs.subscribe(
         (response) => {
           console.log(response);
+          this.router.navigate(['']);
 
         },
         (errorMessage) => {

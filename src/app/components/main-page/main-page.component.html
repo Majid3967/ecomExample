@@ -1,1 +1,5 @@
-<p>main-page works!</p>
+<div class="row">
+    <div *ngFor="let item of allItems" class="col">
+        <app-list-item [item]="item" class="m-2"></app-list-item>
+    </div>
+</div>
