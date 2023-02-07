@@ -1,0 +1,43 @@
+<div class="d-flex align-items-center justify-content-center center">
+<div class="card shadow-sm p-3 mb-5 bg-white rounded">
+    <div class="card-body">
+        <h4 class="card-title text-center">{{isLogin ? "Log In" : "Sign Up"}}</h4>
+        <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+                    formControlName="email">
+                <div *ngIf="!authForm.get('email')?.valid && authForm.get('email')?.touched">
+                    <p class="text-danger">Invalid Email</p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" formControlName="password">
+                <div *ngIf="!authForm.get('password')?.valid && authForm.get('password')?.touched">
+                    <p class="text-danger">Invalid Password</p>
+                </div>
+            </div>
+            <div *ngIf="!isLogin" class="mb-3">
+                <label for="confirmpassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmpassword" name="confirmpassword"
+                    formControlName="confirmpassword">
+                <div *ngIf="authForm.errors?.['passwordMismatchError'] && authForm.get('confirmpassword')?.touched">
+                    <p class="text-danger">Password doesn't match</p>
+                </div>
+            </div>
+            <div class="mb-3 text-center">
+                <button type="submit" class="btn btn-primary">{{isLogin ? "Log In" : "Sign Up"}}</button>
+            </div>
+
+        </form>
+        <div class="mb-3 text-center">
+            <button type="button" class="btn" (click)="changeForm()">{{isLogin ? "Change to Sign Up" : "Change to Log
+                In"}}</button>
+        </div>
+        <div class="mb-3 text-center">
+            <p class="text-danger">{{error}}</p>
+        </div>
+    </div>
+</div>
+</div>
