@@ -10,12 +10,24 @@ import { StoreService } from 'src/app/services/store.service';
 })
 export class MainPageComponent implements OnInit{
 
+  isLoading = false;
+
   allItems:Item[] = [];
 
   constructor(private storeServie:StoreService,private activatedRoute: ActivatedRoute){}
   ngOnInit(): void {
+    this.isLoading = true;
     this.activatedRoute.data.subscribe(({ data }) => {
-      this.allItems = data
+      this.allItems = data;
+      this.isLoading = false;
+    })
+  }
+
+  filterItems(category: string){
+    this.isLoading = true;
+    this.storeServie.filterItems(category).subscribe((response)=>{
+      this.allItems = response;
+      this.isLoading = false;
     })
   }
 

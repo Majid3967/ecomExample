@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthResponseData, AuthService } from 'src/app/services/auth.service';
+import { AuthResponseData } from 'src/app/models/auth-response-data.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { passwordMatch } from 'src/app/validators/passwordMatch';
 
 @Component({
@@ -35,7 +36,6 @@ export class AuthFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.authForm);
     let authObs: Observable<AuthResponseData>;
 
     if (this.isLogin) {
@@ -43,21 +43,24 @@ export class AuthFormComponent implements OnInit {
         this.authForm.value.email,
         this.authForm.value.password
       );
-
-      authObs.subscribe(
-        (response) => {
-          console.log(response);
-          this.router.navigate(['']);
-
-        },
-        (errorMessage) => {
-          this.error = errorMessage.error.error.message;
-        }
-      );
     } else {
+      authObs = this.authService.signUp(
+        this.authForm.value.email,
+        this.authForm.value.password
+      );
     }
-  }
 
+    authObs.subscribe(
+      (response) => {
+        console.log(response);
+        this.router.navigate(['']);
+
+      },
+      (errorMessage) => {
+        this.error = errorMessage.error.error.message;
+      }
+    );
+  }
   changeForm() {
     this.isLogin = !this.isLogin;
   }

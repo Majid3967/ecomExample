@@ -24,9 +24,37 @@ export class StoreService {
               response[key].itemName,
               response[key].imgUrl,
               response[key].description,
-              response[key].catID
+              response[key].catID,
+              response[key].price
             );
             allItems.push(item);
+          }
+          return allItems
+        })
+      );
+      
+  }
+
+  filterItems(category:string) {
+    return this.http
+      .get<{ [key: string]: Item }>(
+        'https://ecomangular-eb6f7-default-rtdb.firebaseio.com/itmes.json'
+      )
+      .pipe(
+        map((response) => {
+            let allItems: Item[] = [];
+          for (let key in response) {
+            if(category == '0' || response[key].catID == category){
+            let item = new Item(
+              response[key].itemID,
+              response[key].itemName,
+              response[key].imgUrl,
+              response[key].description,
+              response[key].catID,
+              response[key].price
+            );
+            allItems.push(item);
+            }
           }
           return allItems
         })

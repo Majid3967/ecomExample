@@ -4,13 +4,14 @@ export class Item {
     public imgUrl: string;
     public description: string;
     public catID: string;
-    // private key?: string;
+    public price:string;
 
-  constructor(itemID: string, itemName: string, imgUrl:string, description: string,catID:string) {
+  constructor(itemID: string, itemName: string, imgUrl:string, description: string,catID:string,price:string) {
     this.itemID = itemID;
     this.itemName = itemName;
     this.imgUrl = imgUrl;
     this.description = description;
     this.catID=catID
+    this.price =price
   }
   }

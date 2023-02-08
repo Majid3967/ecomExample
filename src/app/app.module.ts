@@ -12,6 +12,8 @@ import { RouterModule } from '@angular/router';
 import { ListItemComponent } from './components/list-item/list-item.component';
 import { ItemsResolveService } from './services/resolvers/item-data-resolve.service';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { FilterCategoryComponent } from './components/filter-category/filter-category.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 const appRoutes =[
   {path:'',component:MainPageComponent,resolve:{data:ItemsResolveService}},
@@ -26,7 +28,9 @@ const appRoutes =[
     AuthFormComponent,
     MainPageComponent,
     ListItemComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    FilterCategoryComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
