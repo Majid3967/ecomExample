@@ -33,6 +33,8 @@ export class AuthFormComponent implements OnInit {
       },
       [passwordMatch('password', 'confirmpassword')]
     );
+
+    
   }
 
   onSubmit() {
@@ -52,7 +54,9 @@ export class AuthFormComponent implements OnInit {
 
     authObs.subscribe(
       (response) => {
-        console.log(response);
+        
+      
+    
         this.router.navigate(['']);
 
       },
@@ -60,6 +64,9 @@ export class AuthFormComponent implements OnInit {
         this.error = errorMessage.error.error.message;
       }
     );
+    const main=this.authService.userSub.value
+    console.log("data"+main)
+
   }
   changeForm() {
     this.isLogin = !this.isLogin;

@@ -10,7 +10,21 @@
         <li class="nav-item">
           <a class="nav-link active" routerLink="/" routerLinkActive="active">Home</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link active" routerLink="/productdetail" routerLinkActive="active">ProductDetail</a>
+        </li>
+        
+
+
       </ul>
+
+
+      <button routerLink="/cart" class="btn btn-primary">
+        <i style="font-size: 30px;" class="fas fa-cart-plus"></i>
+        <div style="font-size: 10px;" class="badge bg-danger">{{totalItem}}</div>
+    </button>
+
+
       <button *ngIf="!isAuth" class="btn btn-primary" (click)="authForm()">Log In</button>
       <button *ngIf="isAuth" class="btn btn-danger" (click)="logOut()">Log Out</button>
     </div>

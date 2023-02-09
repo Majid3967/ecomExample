@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,13 +10,19 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NavbarComponent implements OnInit{
   isAuth=false
+  public totalItem : number = 0;
 
-  constructor(private router:Router,private authService:AuthService){}
+  constructor(private router:Router,private authService:AuthService, private cartService:CartService){}
 
   ngOnInit(): void {
     this.authService.userSub.subscribe((user) => {
       this.isAuth = user ? true : false;
     });
+
+    this.cartService.getProducts()
+    .subscribe(res=>{
+      this.totalItem = res.length;
+    })
   }
 
   authForm(){
