@@ -1,6 +1,6 @@
-<app-navbar></app-navbar> 
+<app-navbar [totalItem]="cartItemTotal"></app-navbar> 
 <div class="container">
-    <router-outlet></router-outlet>
+    <router-outlet (activate)="componentAdded($event)"></router-outlet>
 </div>
 
 

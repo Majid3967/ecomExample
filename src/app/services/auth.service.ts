@@ -12,14 +12,13 @@ export class AuthService {
   userSub = new BehaviorSubject<User | null>(null);
    isLoggedIn = new BehaviorSubject<boolean>(false);
   
-  
   constructor(private http: HttpClient, private router: Router) { }
 
   signUp(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDVfVSjqmRn5hkO-ks3FBgRswpWZPLrxoA',
-        { email, password, returnSecureToken: true }
+        'https://localhost:7016/api/auth/register',
+        { email, password }
       )
       .pipe(tap(this.handleUser.bind(this)))
   }
@@ -27,9 +26,8 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDVfVSjqmRn5hkO-ks3FBgRswpWZPLrxoA',
-        { email, password, returnSecureToken: true }
-      )
+        'https://localhost:7016/api/auth/login',
+        { email, password })
       .pipe(tap(this.handleUser.bind(this)));
      
   }
@@ -46,10 +44,7 @@ export class AuthService {
     );
 
     this.userSub.next(user);
-    // this.isLoggedIn(true)
-    console.log(user)
-    
-    localStorage.setItem("token",JSON.stringify(user))
+    // localStorage.setItem("token",JSON.stringify(user))
 
     // localStorage.clear();
    
@@ -57,28 +52,27 @@ export class AuthService {
   }
 
   logout() {
-    console.log("function called")
     this.userSub.next(null);
     localStorage.clear()
     this.router.navigate(['/auth']);
   }
-
 
   isAuthenticated() {
     console.log(this.userSub.value)
     return new Promise((resolve, reject) => {
       if (this.userSub.value === null) {
         // reject("not log")
-        
       }
       else {
         resolve(true);
-
-
       }
       
     },);
 
+  }
+  loggedUser(){
+    // console.log(this.userSub.getValue())
+    return this.userSub.value?.email
   }
 
   refresh(){

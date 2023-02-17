@@ -12,7 +12,7 @@ import { passwordMatch } from 'src/app/validators/passwordMatch';
   styleUrls: ['./auth-form.component.css'],
 })
 export class AuthFormComponent implements OnInit {
-  isLogin = false;
+  isLogin = true;
   authForm!: FormGroup;
   error: string = '';
 
@@ -51,22 +51,17 @@ export class AuthFormComponent implements OnInit {
         this.authForm.value.password
       );
     }
-
     authObs.subscribe(
       (response) => {
-        
-      
-    
         this.router.navigate(['']);
-
       },
       (errorMessage) => {
-        this.error = errorMessage.error.error.message;
+        console.log(errorMessage)
+        this.error = errorMessage.error;
       }
     );
     const main=this.authService.userSub.value
     console.log("data"+main)
-
   }
   changeForm() {
     this.isLogin = !this.isLogin;

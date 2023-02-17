@@ -6,15 +6,12 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./filter-category.component.css']
 })
 export class FilterCategoryComponent implements OnInit{
-  @Output() newItemEvent = new EventEmitter<string>();
-
-  catNumber=1
+  @Output() newItemEvent = new EventEmitter<number>();
   
   ngOnInit(): void {
   }
 
-  onFilter(category:string){
-    // console.log(category)
+  onFilter(category:number){
     this.newItemEvent.emit(category);
   }
 

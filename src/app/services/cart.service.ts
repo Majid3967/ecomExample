@@ -1,18 +1,45 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
+import { Cart } from '../models/cart.model';
+import { Item } from '../models/item.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-
+  
   public cartItemList : any =[]
    detailItem: any =[]
   public productList = new BehaviorSubject<any>([]);
   public detailList = new BehaviorSubject<any>([]);
   
 
-  constructor() { }
+  constructor(private http: HttpClient,private authService:AuthService) { }
+
+  getAllCartItems(userEmail:string){
+    return this.http
+    .get<{ [key: string]: Cart }>(
+      `https://localhost:7016/api/cart/getAllCartItems/${userEmail}`
+    )
+    .pipe(
+      map((response) => {
+          let cartItems: Cart[] = [];
+        for (let key in response) {
+          let cartItem = new Cart(
+            response[key].cartId,
+            response[key].userEmail,
+            response[key].itemId,
+            response[key].quantity,
+          );
+          cartItems.push(cartItem);
+        }
+        return cartItems
+      })
+    );
+  }
+
   getProducts(){
     return this.productList.asObservable();
   }
@@ -27,19 +54,27 @@ export class CartService {
   //   this.cartItemList.push(...product);
   //   this.productList.next(product);
   // }
-  addtoCart(product : any){
-    this.cartItemList.push(product);
-    this.productList.next(this.cartItemList);
-    this.getTotalPrice();
-    console.log(this.cartItemList)
+  addtoCart(item : Item){
+    let userEmail = this.authService.loggedUser();
+    return this.http
+    .post<string>(
+      `https://localhost:7016/api/cart/addCartItem`,
+      {
+        userEmail:userEmail,
+        itemId:item.itemId,
+        quantity:1
+      }
+    );
+
+    // this.cartItemList.push(product);
+    // this.productList.next(this.cartItemList);
+    // this.getTotalPrice();
+    // console.log(this.cartItemList)
   }
 
   AddtoDetail(product :any){
     this.detailItem.push(product)
     this.detailList.next(this.detailItem)
-
-
-
   }
 
   getTotalPrice() : number{
@@ -49,17 +84,26 @@ export class CartService {
     })
     return grandTotal;
   }
-  removeCartItem(product: any){
-    this.cartItemList.map((a:any, index:any)=>{
-      if(product.id=== a.id){
-        this.cartItemList.splice(index,1);
-      }
-    })
-    this.productList.next(this.cartItemList);
+  removeCartItem(cartId: number){
+    return this.http
+    .delete<string>(
+      `https://localhost:7016/api/cart/deleteCartItem/${cartId}`
+    );
+    // this.cartItemList.map((a:any, index:any)=>{
+    //   if(product.id=== a.id){
+    //     this.cartItemList.splice(index,1);
+    //   }
+    // })
+    // this.productList.next(this.cartItemList);
   }
   removeAllCart(){
-    this.cartItemList = []
-    this.productList.next(this.cartItemList);
+    let userEmail = this.authService.loggedUser();
+    return this.http
+    .delete<string>(
+      `https://localhost:7016/api/cart/deleteAllCartItem/${userEmail}`
+    );
+    // this.cartItemList = []
+    // this.productList.next(this.cartItemList);
   }
 }
 

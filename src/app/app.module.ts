@@ -21,16 +21,19 @@ import { CartComponent } from './cart/cart.component';
 import { ProductDetailComponent } from './detail/productdetail/productdetail.component';
 import { DetailComponent } from './detail/detail.component';
 import { AuthGuard } from './auth.guard';
+import { CartResolveService } from './services/resolvers/cart-data-resolve.service';
+import { CartItemsResolveService } from './services/resolvers/cartItems-data.resolve.service';
+import { SuccessPageComponent } from './components/success-page/success-page.component';
 
 
 const appRoutes =[
-  {path:'',component:MainPageComponent,resolve:{data:ItemsResolveService}},
+  {path:'',component:MainPageComponent,resolve:{itemData:ItemsResolveService,cartData:CartResolveService}},
   {path:'auth',component:AuthFormComponent},
   {path:'productdetail',component:ProductDetailComponent},
   
   {path:'detail',component:DetailComponent},
-  {path:'cart',component:CartComponent,canActivate:[AuthGuard]},
-
+  {path:'cart',component:CartComponent,canActivate:[AuthGuard],resolve:{cartItemData:CartItemsResolveService}},
+  {path:'success',component:SuccessPageComponent},
   {path:'**',component:PageNotFoundComponent}
 ]
 
@@ -48,7 +51,8 @@ const appRoutes =[
 
     CartComponent,
     ProductDetailComponent,
-    DetailComponent
+    DetailComponent,
+    SuccessPageComponent
     
 
   ],

@@ -1,17 +1,19 @@
 export class Item {
-    public itemID: string;
+    public cartId:number;
+    public itemId: number;
     public itemName: string;
-    public imgUrl: string;
+    public imageUrl: string;
     public description: string;
-    public catID: string;
+    public categoryId: number;
     public price:string;
 
-  constructor(itemID: string, itemName: string, imgUrl:string, description: string,catID:string,price:string) {
-    this.itemID = itemID;
+  constructor(cartId:number,itemId: number, itemName: string, imageUrl:string, description: string,categoryId:number,price:string) {
+    this.cartId=cartId;
+    this.itemId = itemId;
     this.itemName = itemName;
-    this.imgUrl = imgUrl;
+    this.imageUrl = imageUrl;
     this.description = description;
-    this.catID=catID
+    this.categoryId=categoryId
     this.price =price
   }
   }

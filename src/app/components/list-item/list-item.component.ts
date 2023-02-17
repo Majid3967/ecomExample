@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import { Item } from 'src/app/models/item.model';
 import { CartService } from 'src/app/services/cart.service';
 
@@ -10,7 +11,7 @@ import { CartService } from 'src/app/services/cart.service';
 export class ListItemComponent implements OnInit{
   @Input('item') item!:Item;
 
-  constructor(private cartService:CartService){
+  constructor(private cartService:CartService,private router:Router){
 
   }
   ngOnInit(): void {
@@ -18,8 +19,9 @@ export class ListItemComponent implements OnInit{
   }
   addToDetail(item:any){
     this.cartService.AddtoDetail(item)
-
-
+  }
+  showDetails(){
+    this.router.navigate(['/detail',this.item])
   }
 
 }
