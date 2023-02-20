@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Cart } from 'src/app/models/cart.model';
 import { Item } from 'src/app/models/item.model';
+import { CartService } from 'src/app/services/cart.service';
 import { StoreService } from 'src/app/services/store.service';
 
 @Component({
@@ -14,8 +15,9 @@ export class MainPageComponent implements OnInit{
   isLoading = false;
   allItems:Item[] = [];
   public allCartItems:Cart[]=[];
+  itemCount = 0 ;
 
-  constructor(private storeServie:StoreService,private activatedRoute: ActivatedRoute){}
+  constructor(private storeServie:StoreService,private activatedRoute: ActivatedRoute,private cartService:CartService){}
   ngOnInit(): void {
     this.isLoading = true;
     this.activatedRoute.data.subscribe(({ itemData,cartData }) => {
@@ -24,7 +26,10 @@ export class MainPageComponent implements OnInit{
       console.log(this.allCartItems)
       this.isLoading = false;
     })
-    this.cartItemCount(this.allCartItems.length);
+    this.allCartItems.forEach((item)=>{
+     this.itemCount += item.quantity; 
+    })
+    this.cartItemCount(this.itemCount);
   }
 
   filterItems(category: number){
@@ -36,6 +41,7 @@ export class MainPageComponent implements OnInit{
   }
 
   cartItemCount(value: number) {
+    this.cartService.updatecartItemCount(value);
     this.cartCountEvent.emit(value);
   }
 

@@ -10,7 +10,8 @@ import { CartService } from 'src/app/services/cart.service';
 })
 export class NavbarComponent implements OnInit{
   isAuth=false
-  @Input() totalItem : number = 0;  
+  @Input() totalItem : number = 0;
+  totalCartItem:number = 0;  
 
   constructor(private router:Router,private authService:AuthService, private cartService:CartService){}
 
@@ -18,6 +19,9 @@ export class NavbarComponent implements OnInit{
     this.authService.userSub.subscribe((user) => {
       this.isAuth = user ? true : false;
     });
+    this.cartService.cartItemCount.subscribe((data)=>{
+      this.totalCartItem = data
+    })
 
     this.cartService.getProducts()
     .subscribe(res=>{
@@ -30,6 +34,12 @@ export class NavbarComponent implements OnInit{
   }
   logOut(){
     this.authService.logout()
+  }
+
+  onCartClick(){
+    if(!this.isAuth){
+      this.router.navigateByUrl('auth')
+    }
   }
 
 }

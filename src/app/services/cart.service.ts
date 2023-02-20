@@ -9,14 +9,27 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class CartService {
+
+  cartItemCount = new BehaviorSubject<number>(0);
+  cartItemsList = new BehaviorSubject<any>([]);
   
-  public cartItemList : any =[]
+  // public cartItemList : any =[]
    detailItem: any =[]
   public productList = new BehaviorSubject<any>([]);
   public detailList = new BehaviorSubject<any>([]);
   
 
   constructor(private http: HttpClient,private authService:AuthService) { }
+
+  updatecartItemCount(count:number){
+    this.cartItemCount.next(count);
+  }
+  addCartItemList(addedList:Cart[]){
+    this.cartItemsList.next(addedList);
+  }
+  getCartItemList(){
+    return this.addCartItemList
+  }
 
   getAllCartItems(userEmail:string){
     return this.http
@@ -55,6 +68,8 @@ export class CartService {
   //   this.productList.next(product);
   // }
   addtoCart(item : Item){
+    var count = this.cartItemCount.value+1;
+    this.updatecartItemCount(count);
     let userEmail = this.authService.loggedUser();
     return this.http
     .post<string>(
@@ -65,11 +80,23 @@ export class CartService {
         quantity:1
       }
     );
+    
+
 
     // this.cartItemList.push(product);
     // this.productList.next(this.cartItemList);
     // this.getTotalPrice();
     // console.log(this.cartItemList)
+  }
+
+  updateToCart(cartItem : Cart){
+    var count = this.cartItemCount.value+1;
+    this.updatecartItemCount(count);
+    return this.http
+    .post<string>(
+      `https://localhost:7016/api/cart/updateCartItem`,
+      cartItem
+    );
   }
 
   AddtoDetail(product :any){
@@ -79,9 +106,9 @@ export class CartService {
 
   getTotalPrice() : number{
     let grandTotal = 0;
-    this.cartItemList.map((a:any)=>{
-      grandTotal += a.total;
-    })
+    // this.cartItemList.map((a:any)=>{
+    //   grandTotal += a.total;
+    // })
     return grandTotal;
   }
   removeCartItem(cartId: number){

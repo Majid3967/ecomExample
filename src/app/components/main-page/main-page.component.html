@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div *ngFor="let item of allItems" class="col">
-                    <app-list-item [item]="item" class="m-2"></app-list-item>
+                    <app-list-item [item]="item" [allCartItems]="allCartItems" class="m-2"></app-list-item>
                 </div>
             </div>
         </div>

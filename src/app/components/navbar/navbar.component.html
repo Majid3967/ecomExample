@@ -12,9 +12,9 @@
         </li>
       </ul>
 
-      <button routerLink="/cart" class="btn btn-primary mx-2">
+      <button routerLink="/cart" class="btn btn-primary mx-2" (click)="onCartClick()">
         <i style="font-size: 16px;" class="fas fa-cart-plus mx-1">Cart</i>
-        <div *ngIf="totalItem != 0" style="font-size: 10px;" class="badge bg-danger">{{totalItem}}</div>
+        <div *ngIf="totalCartItem != 0" style="font-size: 10px;" class="badge bg-danger">{{totalCartItem}}</div>
       </button>
 
       <button *ngIf="!isAuth" class="btn btn-primary" (click)="authForm()">Log In</button>
