@@ -10,12 +10,35 @@ import { AuthService } from 'src/app/services/auth.service';
 export class NavbarComponent implements OnInit{
   isAuth=false
 
+<<<<<<< Updated upstream
   constructor(private router:Router,private authService:AuthService){}
+=======
+  constructor(private router:Router,private authService:AuthService, private cartService:CartService){}
+totalCountItems:number=0;
+>>>>>>> Stashed changes
 
   ngOnInit(): void {
     this.authService.userSub.subscribe((user) => {
       this.isAuth = user ? true : false;
     });
+<<<<<<< Updated upstream
+=======
+     this.cartService.cartItemCount.subscribe((data)=>{
+     this.totalCartItem=data
+
+     })
+     console.log(this.totalCountItems)
+    this.cartService.cartItemCount.subscribe(x=>{
+
+this.totalCountItems++;
+console.log(this.totalCountItems)
+    })
+
+    this.cartService.getProducts()
+    .subscribe(res=>{
+      this.totalItem = res.length;
+    })
+>>>>>>> Stashed changes
   }
 
   authForm(){
@@ -25,4 +48,15 @@ export class NavbarComponent implements OnInit{
     this.authService.logout()
   }
 
+<<<<<<< Updated upstream
+=======
+  onCartClick(){
+    // this.totalCartItem = this.totalCartItem+1;
+    if(!this.isAuth){
+      this.router.navigateByUrl('auth')
+     
+    }
+  }
+
+>>>>>>> Stashed changes
 }

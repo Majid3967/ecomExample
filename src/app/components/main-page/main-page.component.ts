@@ -20,7 +20,15 @@ export class MainPageComponent implements OnInit{
     this.activatedRoute.data.subscribe(({ data }) => {
       this.allItems = data;
       this.isLoading = false;
+      // console.log(this.allItems)
     })
+<<<<<<< Updated upstream
+=======
+    this.allCartItems.forEach((item)=>{
+     this.itemCount += item.Quantity; 
+    })
+    this.cartItemCount(this.itemCount);
+>>>>>>> Stashed changes
   }
 
   filterItems(category: string){

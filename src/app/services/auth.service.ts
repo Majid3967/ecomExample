@@ -15,8 +15,13 @@ export class AuthService {
   signUp(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
+<<<<<<< Updated upstream
         'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDVfVSjqmRn5hkO-ks3FBgRswpWZPLrxoA',
         { email, password, returnSecureToken: true }
+=======
+        'https://localhost:7113/api/auth/register',
+        { email, password }
+>>>>>>> Stashed changes
       )
       .pipe(tap(this.handleUser.bind(this)));
   }
@@ -24,9 +29,14 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
+<<<<<<< Updated upstream
         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDVfVSjqmRn5hkO-ks3FBgRswpWZPLrxoA',
         { email, password, returnSecureToken: true }
       )
+=======
+        'https://localhost:7113/api/auth/login',
+        { email, password })
+>>>>>>> Stashed changes
       .pipe(tap(this.handleUser.bind(this)));
   }
 
